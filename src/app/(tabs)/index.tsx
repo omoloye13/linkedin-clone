@@ -1,6 +1,3 @@
-import { StyleSheet } from 'react-native';
-
-import { Text, View } from '../../components/Themed';
 import posts from '../../../assets/data/posts.json';
 import PostListItem from '../../components/PostListItem';
 
@@ -17,18 +14,3 @@ export default function HomeFeed() {
 		/>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-	title: {
-		fontSize: 20,
-		fontWeight: 'bold',
-	},
-	separator: {
-		marginVertical: 30,
-		height: 1,
-		width: '80%',
-	},
-});

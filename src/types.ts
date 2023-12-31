@@ -16,6 +16,15 @@ export type User = {
     image?:string;
     position:string;
     comment:string;
+    about?:string,
+    backImage:string,
+    experience?:Experience[]
 
    
+}
+export type Experience ={
+    id:string,
+    title:string,
+    companyName:string,
+    companyImage?:string
 }
