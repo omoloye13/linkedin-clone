@@ -1,0 +1,4 @@
+configurationset:
+  - configuration:
+      name: postgresql_config
+      uri: postgresql://ep-patient-dream-59257154.eu-central-1.aws.neon.tech/LinkedIn%20Database?user=omoloyefauziyat&password=tj8F4MebrPyp

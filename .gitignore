@@ -39,3 +39,6 @@ yarn-error.*
 
 expo-env.d.ts
 # @end expo-cli
+
+stepzen
+# api keys are available in this folder so i want to ignore it 

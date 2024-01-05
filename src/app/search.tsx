@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, TextInput, View, FlatList } from 'react-native';
 import React, { useLayoutEffect, useState } from 'react';
 import users from '../../assets/data/users.json';
 import UserListItem from '../components/UserListItem';
@@ -10,13 +10,17 @@ const SearchScreen = () => {
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
-			headerSearchBarOptions: {
-				//serach bar options
-				placeholder: 'Search Users',
-				onChangeText: setSearch,
-			},
+			headerTitle: () => (
+				<View style={styles.searchBarContainer}>
+					<TextInput
+						style={styles.searchInput}
+						placeholder='Search Users'
+						onChangeText={setSearch}
+					/>
+				</View>
+			),
 		});
-	}, [navigation]);
+	}, [navigation, setSearch]);
 	return (
 		<View style={{ flex: 1, backgroundColor: 'white' }}>
 			<FlatList
@@ -29,4 +33,16 @@ const SearchScreen = () => {
 
 export default SearchScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	searchBarContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	searchInput: {
+		// flex: 1,
+		// backgroundColor: 'white', // Adjust styles as needed
+		borderRadius: 10,
+		paddingHorizontal: 0,
+		height: 40,
+	},
+});
