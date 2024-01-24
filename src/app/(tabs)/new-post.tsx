@@ -5,19 +5,46 @@ import { useNavigation, useRouter } from 'expo-router';
 import { useLayoutEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
+import { gql, useMutation } from '@apollo/client';
+
+const insertPost = gql`
+	mutation MyMutation($content: String, $image: String, $userId: ID) {
+		insertPost(content: $content, image: $image, userid: $userId) {
+			content
+			id
+			image
+			userid
+		}
+	}
+`;
 
 export default function NewPostScreen() {
 	const [content, setContent] = useState('');
 	const [image, setImage] = useState<string | null>(null);
 	const navigation = useNavigation();
 	const router = useRouter();
-	const onPost = () => {
-		console.warn('posting: ', content);
 
-		//pushing the user back to the home screen immeiately after creating/clicking on the post button
-		router.push('/(tabs)/');
-		setContent('');
-		setImage(null);
+	const [handleMutation, { loading, error, data }] = useMutation(insertPost);
+
+	// const onPost = () => {
+	// 	console.warn('posting: ', content);
+
+	// 	router.push('/(tabs)/');
+	// 	setContent('');
+	// 	setImage(null);
+	// };
+	const onPost = async () => {
+		// console.warn(`Posting: ${content}`);
+		try {
+			await handleMutation({ variables: { content, userId: 1 } });
+			//pushing the user back to the home screen immeiately after creating/clicking on the post button
+
+			router.push('/(tabs)/');
+			setContent('');
+			setImage(null);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 	useLayoutEffect(() => {
 		navigation.setOptions({
@@ -78,6 +105,7 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		fontSize: 20,
+		// color: 'white',
 	},
 	title: {
 		fontSize: 20,

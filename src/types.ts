@@ -5,7 +5,7 @@ export type Post = {
     image?:string;
     comments:string;
     likes:number;
-    author:User;
+    profile:User;
     comment:string;
 }
 
@@ -17,7 +17,7 @@ export type User = {
     position:string;
     comment:string;
     about?:string,
-    backImage:string,
+    backimage:string,
     experience?:Experience[]
 
    
@@ -25,6 +25,6 @@ export type User = {
 export type Experience ={
     id:string,
     title:string,
-    companyName:string,
-    companyImage?:string
+    companyname:string,
+    companyimage?:string
 }

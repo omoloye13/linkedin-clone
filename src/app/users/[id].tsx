@@ -4,6 +4,7 @@ import {
 	StyleSheet,
 	ScrollView,
 	Image,
+	ActivityIndicator,
 	Pressable,
 } from 'react-native';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
@@ -12,17 +13,50 @@ import { useState, useLayoutEffect } from 'react';
 import { User } from '../../types';
 import ExperienceListItem from '../../components/ExperienceListItem';
 
+import { gql, useQuery } from '@apollo/client';
+
+const query = gql`
+	query MyQuery($id: ID!) {
+		profile(id: $id) {
+			id
+			image
+			name
+			backimage
+			about
+			experience {
+				companyimage
+				companyname
+				id
+				title
+				userid
+			}
+			position
+		}
+	}
+`;
+
 const UserProfile = () => {
-	const [user, setUser] = useState<User>(userData);
+	// const [user, setUser] = useState<User>(userData);
 	const { id } = useLocalSearchParams();
+
+	const { loading, error, data } = useQuery(query, { variables: { id } });
+	const user = data?.profile;
+	// loading state
+	if (loading) {
+		return <ActivityIndicator size={24} />;
+	}
+	if (error) {
+		return <Text>Something went wrong...</Text>;
+	}
 	const navigation = useNavigation();
 	useLayoutEffect(() => {
-		navigation.setOptions({ title: user.name });
-	}, [user]);
+		navigation.setOptions({ title: user?.name || 'User' });
+	}, [user?.name]);
+
 	return (
 		<ScrollView>
 			<View style={styles.headerContainer}>
-				<Image source={{ uri: user.backImage }} style={styles.backImage} />
+				<Image source={{ uri: user?.backimage }} style={styles.backImage} />
 				<View style={styles.headerContent}>
 					<Image source={{ uri: user.image }} style={styles.image} />
 
